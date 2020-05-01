@@ -20,7 +20,6 @@ class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
 
 
-
 class GenericApiView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
                      mixins.RetrieveModelMixin, mixins.DestroyModelMixin):
     serializer_class = TestSerializer
