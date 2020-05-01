@@ -18,8 +18,7 @@ from django.shortcuts import get_object_or_404
 class TestViewSet(viewsets.ModelViewSet):
     serializer_class = TestSerializer
     queryset = Test.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+
 
 
 class GenericApiView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
