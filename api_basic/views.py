@@ -13,11 +13,15 @@ from rest_framework import generics, mixins
 from rest_framework.authentication import BaseAuthentication, TokenAuthentication, SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 
 
 class TestViewSet(viewsets.ModelViewSet):
     serializer_class = TestSerializer
     queryset = Test.objects.all()
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
 class GenericApiView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
@@ -42,6 +46,15 @@ class GenericApiView(generics.GenericAPIView, mixins.ListModelMixin, mixins.Crea
 
     def delete(self, request, id):
         return self.destroy(request, id)
+
+
+class UserAuthentication(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response(token.key)
 
 
 class TestAPIView(APIView):
