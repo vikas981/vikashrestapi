@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.views import APIView
 from rest_framework import generics, mixins
-from rest_framework.authentication import BaseAuthentication, TokenAuthentication, SessionAuthentication
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -20,8 +20,6 @@ from rest_framework.authtoken.models import Token
 class TestViewSet(viewsets.ModelViewSet):
     serializer_class = TestSerializer
     queryset = Test.objects.all()
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
 
 
 class GenericApiView(generics.GenericAPIView, mixins.ListModelMixin, mixins.CreateModelMixin, mixins.UpdateModelMixin,
@@ -29,8 +27,6 @@ class GenericApiView(generics.GenericAPIView, mixins.ListModelMixin, mixins.Crea
     serializer_class = TestSerializer
     queryset = Test.objects.all()
     lookup_field = 'id'
-    authentication_classes = [BaseAuthentication, TokenAuthentication]
-    permission_classes = [IsAuthenticated]
 
     def get(self, request, id=None):
         if id:
