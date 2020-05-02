@@ -88,7 +88,7 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 db_from_env = dj_database_url.config()
 
-DATABASES['default'].update(db_from_env)
+
 
 
 DATABASES = {
@@ -111,7 +111,7 @@ DATABASES = {
     }
 
 }
-
+DATABASES['default'].update(db_from_env)
 
 
 # Password validation
