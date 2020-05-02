@@ -12,11 +12,13 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -26,7 +28,7 @@ SECRET_KEY = 'yl(s_nb&crrk83_q_b@-qh9#qa$4=u9m4ma9%wo86tqko$!uxm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0:5000']
+ALLOWED_HOSTS = ['0.0.0.0', 'localhost','https://vikashrestapi.herokuapp.com']
 
 
 # Application definition
@@ -84,6 +86,10 @@ WSGI_APPLICATION = 'MyProject.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+db_from_env = dj_database_url.config()
+
+DATABASES['default'].update(db_from_env)
+
 
 DATABASES = {
 
